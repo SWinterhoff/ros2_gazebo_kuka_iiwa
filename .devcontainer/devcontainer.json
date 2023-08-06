@@ -3,26 +3,11 @@
 {
 	"name": "ros2_humble",
 	"build": {
-		// Sets the run context to one level up instead of the .devcontainer folder.
 		"context": "..",
-		// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
-		"dockerfile": "../Dockerfile"
+		"dockerfile": "../.docker/Dockerfile"
 	},
 	
 	"runArgs": ["--name", "ros2_humble_gazebo_kuka_iiwa", "-e", "DISPLAY=host.docker.internal:0.0"]
-	  
-	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
 
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": []
-
-	// Uncomment the next line to run commands after the container is created.
-	// "postCreateCommand": "cat /etc/os-release",
-
-	// Configure tool-specific properties.
-	// "customizations": {},
-
-	// Uncomment to connect as an existing user other than the container default. More info: https://aka.ms/dev-containers-non-root.
-	// "remoteUser": "devcontainer"
+	//, "postCreateCommand": "cd /workspaces/ros2_gazebo_kuka_iiwa/ros2_ws && colcon build"
 }
