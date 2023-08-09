@@ -9,5 +9,7 @@
 	
 	"runArgs": ["--name", "ros2_humble_gazebo_kuka_iiwa", "-e", "DISPLAY=host.docker.internal:0.0"]
 
+	//, "postCreateCommand": "rosdep update && rosdep install -y --from-paths /workspace/src --ignore-src --rosdistro humble"
+
 	//, "postCreateCommand": "cd /workspaces/ros2_gazebo_kuka_iiwa/ros2_ws && colcon build"
 }
