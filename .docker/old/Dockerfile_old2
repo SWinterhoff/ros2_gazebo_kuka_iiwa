@@ -1,0 +1,44 @@
+# ROS2 Humble Hawksbill Image
+FROM ros:humble
+
+# Source ROS2
+RUN echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
+RUN echo "source /workspaces/ros2_gazebo_kuka_iiwa/ros2_ws/install/setup.bash" >> ~/.bashrc
+
+# Source Gazebo
+RUN echo "source /usr/share/gazebo/setup.sh" >> ~/.bashrc
+RUN echo 'export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:/workspaces/ros2_gazebo_kuka_iiwa/lbr_fri_ros2_stack_ws/src/lbr_fri_ros2_stack' >> ~/.bashrc
+
+# Set the PYTHONPATH environment variable to include custom package path
+ENV PYTHONPATH="/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages:/workspaces/ros2_ws/install:/workspaces/gazebo_ws/install:$PYTHONPATH"
+
+# General initialization
+RUN apt-get update && apt-get upgrade -y
+RUN apt-get install -y git 
+RUN apt-get install -y python3-pip
+RUN apt-get install -y python3-rosdep
+
+# Gazebo Simulation
+RUN apt-get install -y ros-humble-gazebo-ros-pkgs
+
+# GUI
+RUN apt-get install -y libgl1-mesa-glx
+RUN apt-get install -y ros-humble-cv-bridge
+
+# Install ROS2 dependencies
+COPY requirements.txt /tmp/ros2_requirements.txt
+RUN rosdep update && rosdep install --from-paths /tmp/ros2_requirements.txt --ignore-src -r -y
+
+# Install missing ROS2 Workspace dependencies
+#COPY ros2_ws /tmp/ros2_ws
+#RUN rosdep install -y --from-paths /tmp/ros2_ws --ignore-src --rosdistro humble -r
+
+# Install Python dependencies
+COPY requirements.txt /tmp/requirements.txt
+RUN pip3 install -r /tmp/requirements.txt
+
+# General update
+RUN apt-get update
+
+# Set the working directory
+WORKDIR /workspaces/RoverDocking/ros2_ws

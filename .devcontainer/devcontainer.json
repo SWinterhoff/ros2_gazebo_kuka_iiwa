@@ -1,10 +1,10 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/docker-existing-dockerfile
 {
-	"name": "ros2_humble",
+	"name": "ros2_humble_gazebo_kuka_iiwa",
 	"build": {
 		"context": "..",
-		"dockerfile": "../.docker/Dockerfile"
+		"dockerfile": ".docker/Dockerfile"
 	},
 	
 	"runArgs": ["--name", "ros2_humble_gazebo_kuka_iiwa", "-e", "DISPLAY=host.docker.internal:0.0"]
