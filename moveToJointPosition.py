@@ -1,4 +1,5 @@
 import rclpy
+import numpy as np
 from control_msgs.action import FollowJointTrajectory
 from rclpy.action import ActionClient
 from rclpy.node import Node
@@ -26,7 +27,7 @@ class LBRJointTrajectoryExecutionerNode(Node):
             return
 
         joint_trajectory_goal = FollowJointTrajectory.Goal()
-        goal_sec_tolerance = 1
+        goal_sec_tolerance = 10
         joint_trajectory_goal.goal_time_tolerance.sec = goal_sec_tolerance
 
         point = JointTrajectoryPoint()
@@ -46,8 +47,11 @@ class LBRJointTrajectoryExecutionerNode(Node):
         )
         rclpy.spin_until_future_complete(self, goal_future)
         goal_handle = goal_future.result()
+        if not goal_handle:
+            self.get_logger().error("Goal was not accepted or the goal handle is invalid.")
+            return
         if not goal_handle.accepted:
-            self.get_logger().error("Goal was rejected by server.")
+            self.get_logger().info("Goal was accepted by server.")
             return
         self.get_logger().info("Goal was accepted by server.")
 
@@ -57,12 +61,16 @@ class LBRJointTrajectoryExecutionerNode(Node):
             self, result_future, timeout_sec=sec_from_start + goal_sec_tolerance
         )
 
-        if (
-            result_future.result().result.error_code
-            != FollowJointTrajectory.Result.SUCCESSFUL
-        ):
-            self.get_logger().error("Failed to execute joint trajectory.")
+        result = result_future.result()
+        if not result:
+            self.get_logger().error("Result is invalid.")
             return
+        # if (
+        #     result_future.result().result.error_code
+        #     != FollowJointTrajectory.Result.SUCCESSFUL
+        # ):
+        #     self.get_logger().error("Failed to execute joint trajectory.")
+        #     return
 
 
 def main(args: list = None) -> None:
@@ -75,29 +83,29 @@ def main(args: list = None) -> None:
     lbr_joint_trajectory_executioner_node.get_logger().info("Rotating odd joints.")
     lbr_joint_trajectory_executioner_node.execute(
         [
-            1.0,
+            -1*np.pi,
+            -0.5*np.pi,
+            -0.5*np.pi,
+            -0.5*np.pi,
+            -0.5*np.pi,
             0.0,
-            5.0,
             0.0,
-            5.0,
-            0.0,
-            2.0,
         ]
     )
 
     # move to zero position
-    # lbr_joint_trajectory_executioner_node.get_logger().info("Moving to zero position.")
-    # lbr_joint_trajectory_executioner_node.execute(
-    #     [
-    #         0.0,
-    #         0.0,
-    #         0.0,
-    #         0.0,
-    #         0.0,
-    #         0.0,
-    #         0.0,
-    #     ]
-    # )
+    lbr_joint_trajectory_executioner_node.get_logger().info("Moving to zero position.")
+    lbr_joint_trajectory_executioner_node.execute(
+        [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+        ]
+    )
 
     rclpy.shutdown()
 

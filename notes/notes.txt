@@ -1,18 +1,27 @@
 
+### Start Simulation ###
+ros2 launch lbr_bringup bringup.launch.py model:=iiwa7 sim:=true rviz:=false moveit:=false
+
+
+### Start Controller ###
+ros2 run lbr_demos_ros2_control_python lbr_joint_trajectory_executioner_node
+
+
+
+----------------------------------------------------------------------------------------
+### Demos (only real robot) ###
+ros2 launch lbr_demos_fri_ros2_python joint_sine_overlay.launch.py model:=iiwa7 # [iiwa7, iiwa14, med7, med14]
+ros2 launch lbr_demos_fri_ros2_python torque_sine_overlay.launch.py model:=iiwa7 # [iiwa7, iiwa14, med7, med14]
+ros2 launch lbr_demos_fri_ros2_python wrench_sine_overlay.launch.py model:=iiwa7 # [iiwa7, iiwa14, med7, med14]
+
+
+----------------------------------------------------------------------------------------
+
 ### Init Config ###
 export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:/workspaces/ros2_gazebo_kuka_iiwa/ros2_ws/src/lbr_fri_ros2_stack
 source /opt/ros/humble/setup.bash
 source /workspaces/ros2_gazebo_kuka_iiwa/ros2_ws/install/setup.bash
 source /usr/share/gazebo/setup.sh
-
-
-### Start Simulation ###
-ros2 launch lbr_bringup bringup.launch.py model:=iiwa7 sim:=true rviz:=false moveit:=false
-
-
-### Run Controller ###
-ros2 run lbr_demos_ros2_control_python lbr_joint_trajectory_executioner_node
-
 
 
 ----------------------------------------------------------------------------------------
