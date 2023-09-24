@@ -1,0 +1,98 @@
+
+### Init Config ###
+export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:/workspaces/ros2_gazebo_kuka_iiwa/ros2_ws/src/lbr_fri_ros2_stack
+source /opt/ros/humble/setup.bash
+source /workspaces/ros2_gazebo_kuka_iiwa/ros2_ws/install/setup.bash
+source /usr/share/gazebo/setup.sh
+
+
+
+### Start Simulation ###
+ros2 launch lbr_bringup bringup.launch.py model:=iiwa7 sim:=true rviz:=false moveit:=false
+
+
+### Run Controller ###
+ros2 run lbr_demos_ros2_control_python lbr_joint_trajectory_executioner_node
+
+
+
+
+## Maybe necessary, when controller-manager not found:
+sudo apt-get install --reinstall ros-humble-controller-manager
+
+
+sudo apt-get install ros-humble-controller-manager
+sudo apt-get install ros-humble-gazebo-ros2-control
+sudo apt-get install ros-humble-gazebo-ros-pkg
+sudo apt-get install ros-humble-joint-state-publisher
+sudo apt-get install ros-humble-joint-state-broadcaster
+
+
+--------------------------------------------------------------
+
+## Build the ros2_ws if not build yet:
+colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release --symlink-install
+
+## Install dependencies (only one of these):
+cd ros2_ws && rosdep install --from-paths src --ignore-src -r -y
+rosdep install -y --from-paths ros2_ws --ignore-src --rosdistro humble -r
+
+## Maybe necessary, when installation of dep does not work:
+sudo dpkg --configure -a
+
+
+
+
+
+
+##### Repo 1: lbr_fri_ros2_stack #####
+colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release --symlink-install
+
+rosdep update
+cd ros2_ws && rosdep install --from-paths src --ignore-src -r -y
+export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:/workspaces/ros2_gazebo_kuka_iiwa/ros2_ws/src/lbr_fri_ros2_stack
+source /usr/share/gazebo/setup.sh
+source /workspaces/ros2_gazebo_kuka_iiwa/ros2_ws/install/setup.bash
+source /opt/ros/humble/setup.bash
+ros2 launch lbr_bringup bringup.launch.py model:=iiwa7 sim:=true rviz:=false moveit:=false
+
+# ros2 launch lbr_bringup bringup.launch.py \
+    model:=iiwa7 # [iiwa7, iiwa14, med7, med14] \
+    sim:=true # [true, false] \
+    rviz:=true # [true, false] \
+    moveit:=true # [true, false]
+
+### Error while trying to start gazebo server ###
+### Check for running gazebo instances ###
+# ps aux | grep gzserver
+# ps aux | grep gazebo
+
+# root      4589 84.1  4.2 8466180 339824 pts/0  SLl  13:02  10:44 gzserver -slibgazebo_ros_init.so   -slibgazebo_ros_factory.so   -slibgazebo_ros_force_system.so             <---- running server 
+# root      8838  0.0  0.0   4020  2084 pts/0    S+   13:14   0:00 grep --color=auto gzserver  <---- just the grep
+
+# kill -9 4589    # -9 flag to forcefully terminate it
+
+
+### Run Controller ###
+ros2 run lbr_demos_ros2_control_python lbr_joint_trajectory_executioner_node
+
+
+
+##### Repo 2: iiwa_ros2 #####
+## Install dependencies & build workspace
+colcon build
+rosdep install -y --from-paths ros2_ws --ignore-src --rosdistro humble
+
+## Start simulation Gazebo & RViz
+# ros2 launch iiwa_bringup iiwa.launch.py use_sim:="true"
+
+## Start test movements
+# ros2 launch iiwa_bringup iiwa_test_joint_trajectory_controller.launch.py
+        "package 'ros2_controllers_test_nodes' not found"
+        I already resolved this once
+
+
+
+### Extra commands that might need to be executed in new terminal
+export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:/workspaces/ros2_gazebo_kuka_iiwa/ros2_ws/src/iiwa_ros2
+export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:/workspaces/ros2_gazebo_kuka_iiwa/ros2_ws/src/lbr_fri_ros2_stack
