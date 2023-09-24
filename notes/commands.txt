@@ -1,0 +1,18 @@
+Build Image:
+docker build -t kuka_iiwa_image:3.0
+
+
+Start New Container:
+docker run -it --name kuka_iiwa_container -e DISPLAY=host.docker.internal:0.0 kuka_iiwa_image:3.0
+
+
+Start Existing Container:
+docker start kuka_iiwa_container
+
+docker run -it --name new_kuka_iiwa_container --network container:ace5dce0fd4c7919426cb91e82769559545634cc7bc7354803a8b9b169c853b2 -e DISPLAY=host.docker.internal:0.0 kuka_iiwa_image
+
+
+
+Attach Terminal to Running Container:
+docker exec -it kuka_iiwa_container /bin/bash
+docker attach kuka_iiwa_container
