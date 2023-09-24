@@ -6,7 +6,6 @@ source /workspaces/ros2_gazebo_kuka_iiwa/ros2_ws/install/setup.bash
 source /usr/share/gazebo/setup.sh
 
 
-
 ### Start Simulation ###
 ros2 launch lbr_bringup bringup.launch.py model:=iiwa7 sim:=true rviz:=false moveit:=false
 
@@ -16,19 +15,9 @@ ros2 run lbr_demos_ros2_control_python lbr_joint_trajectory_executioner_node
 
 
 
-
+----------------------------------------------------------------------------------------
 ## Maybe necessary, when controller-manager not found:
 sudo apt-get install --reinstall ros-humble-controller-manager
-
-
-sudo apt-get install ros-humble-controller-manager
-sudo apt-get install ros-humble-gazebo-ros2-control
-sudo apt-get install ros-humble-gazebo-ros-pkg
-sudo apt-get install ros-humble-joint-state-publisher
-sudo apt-get install ros-humble-joint-state-broadcaster
-
-
---------------------------------------------------------------
 
 ## Build the ros2_ws if not build yet:
 colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release --symlink-install
@@ -41,10 +30,7 @@ rosdep install -y --from-paths ros2_ws --ignore-src --rosdistro humble -r
 sudo dpkg --configure -a
 
 
-
-
-
-
+----------------------------------------------------------------------------------------
 ##### Repo 1: lbr_fri_ros2_stack #####
 colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release --symlink-install
 
@@ -78,6 +64,7 @@ ros2 run lbr_demos_ros2_control_python lbr_joint_trajectory_executioner_node
 
 
 
+----------------------------------------------------------------------------------------
 ##### Repo 2: iiwa_ros2 #####
 ## Install dependencies & build workspace
 colcon build
