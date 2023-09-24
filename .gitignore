@@ -1,7 +1,6 @@
 # Created by https://www.toptal.com/developers/gitignore/api/ros2,python
 # Edit at https://www.toptal.com/developers/gitignore?templates=ros2,python
 
-notes
 old
 build
 install
