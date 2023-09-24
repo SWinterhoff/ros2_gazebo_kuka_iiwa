@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<!-- top level -->
+<robot name="iiwa7" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- include the lbr iiwa macro -->
+    <xacro:include filename="$(find lbr_description)/urdf/iiwa7/iiwa7_description.urdf.xacro" />
+
+    <xacro:arg name="robot_name" default="lbr" />
+    <xacro:arg name="sim" default="true" />
+    <xacro:arg name="base_frame" default="world" />
+
+    <!-- fix to base_frame -->
+    <link name="$(arg base_frame)" />
+
+    <!-- iiwa -->
+    <xacro:iiwa7 base_frame="$(arg base_frame)" robot_name="$(arg robot_name)" sim="$(arg sim)" />
+</robot>
