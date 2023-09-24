@@ -12,14 +12,8 @@ RUN echo 'export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:/workspaces/ros2_gazebo_ku
 # Set the PYTHONPATH environment variable to include custom package path
 ENV PYTHONPATH="/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages:/workspaces/ros2_gazebo_kuka_iiwa/ros2_ws/install:$PYTHONPATH"
 
-# Set environment variables (if needed)
+# Set environment variables
 ENV ROS_DISTRO humble
-
-# Create a directory in the container for your code
-#WORKDIR /workspaces/ros2_gazebo_kuka_iiwa
-
-# Copy your code into the container
-#COPY /ros2_gazebo_kuka_iiwa /workspaces/ros2_gazebo_kuka_iiwa
 
 # Install dependencies
 RUN apt-get update && apt-get install -y python3-pip
@@ -62,6 +56,13 @@ RUN apt-get install -y ros-humble-ros2-control-test-assets
 RUN apt-get install -y ros-humble-joint-state-broadcaster
 RUN apt-get install -y ros-humble-joint-trajectory-controller
 RUN apt-get update
+
+# Create a directory in the container for your code
+WORKDIR /workspaces
+
+# Copy your code into the container
+RUN git clone https://github.com/SWinterhoff/ros2_gazebo_kuka_iiwa.git
+#COPY ../../ros2_gazebo_kuka_iiwa /workspaces/ros2_gazebo_kuka_iiwa
 
 # Start a shell session by default
 CMD ["/bin/bash"]

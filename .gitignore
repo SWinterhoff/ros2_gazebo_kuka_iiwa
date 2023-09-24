@@ -1,8 +1,10 @@
 # Created by https://www.toptal.com/developers/gitignore/api/ros2,python
 # Edit at https://www.toptal.com/developers/gitignore?templates=ros2,python
 
-
 notes
+old
+build
+install
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
@@ -15,7 +17,6 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-build/
 develop-eggs/
 dist/
 downloads/
@@ -177,7 +178,6 @@ poetry.toml
 pyrightconfig.json
 
 ### ROS2 ###
-install/
 log/
 
 # Ignore generated docs

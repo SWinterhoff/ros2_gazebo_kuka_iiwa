@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: ros2_humble_gazebo_kuka_iiwa
-    image: kuka_iiwa_image:2.0
+    image: kuka_iiwa_image:3.0
     volumes:
       - ../../ros2_gazebo_kuka_iiwa:/workspaces/ros2_gazebo_kuka_iiwa
     environment:
