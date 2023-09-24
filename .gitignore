@@ -2,8 +2,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=ros2,python
 
 
-cmd_cs.txt
-notes.txt
+notes
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
